@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Row } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 
 const Header = () => {
@@ -12,14 +12,12 @@ const Header = () => {
                         <Nav className="ml-auto">
                             <Nav.Link href="/cart"><i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
                             <Nav.Link href="/login"><i className="fas fa-shopping-cart"></i> Login</Nav.Link>
-                        
-                        </Nav>                
+                        </Nav>
                     </Navbar.Collapse>
                 </Container>
-                
             </Navbar>
         </header>
      );
 }
- 
+
 export default Header;
