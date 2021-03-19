@@ -8,7 +8,7 @@ const Rating = ({ value, text, color }) => {
             {
                 [1, 2, 3, 4, 5].map(num => (
                     <span className="mr-1">
-                        <i style={{ color }} className={
+                        <i style={{ color: "#f8e825" }} className={
                         value >= num
                             ? 'fas fa-star'
                             : value >= num + 0.5 - 1
