@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # local
-    'base.app.BaseConfig',
+    'base.apps.BaseConfig',
 ]
 
 MIDDLEWARE = [
