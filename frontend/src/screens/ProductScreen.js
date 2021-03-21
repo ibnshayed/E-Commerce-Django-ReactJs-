@@ -4,7 +4,6 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import products from './../products';
 
 const ProductScreen = (props) => {
     

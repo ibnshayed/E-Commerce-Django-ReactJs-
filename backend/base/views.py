@@ -35,7 +35,7 @@ def getProducts(request):
 def getProduct(request, pk):
 
     product = Product.objects.get(_id=pk)
-    serializer = ProductSerializer(product)
+    serializer = ProductSerializer(product, many=False)
 
     # product = None
     # for i in products:
