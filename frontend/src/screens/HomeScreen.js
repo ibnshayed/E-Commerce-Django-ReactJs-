@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import Product from './../components/Product';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listProducts } from '../actions/productActions'
+import { listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -12,9 +12,9 @@ const HomeScreen = () => {
 
     // const [products, setProducts] = useState([])
 
-    const dispatch = useDispatch()
-    const productList = useSelector(state => state.productList)
-    const { error, loading, products } = productList
+    const dispatch = useDispatch();
+    const productList = useSelector(state => state.productList);
+    const { error, loading, products } = productList;
 
     // const getProducts = async () => {
     //     const {data} = await axios.get('/api/products/')
@@ -23,9 +23,9 @@ const HomeScreen = () => {
 
     useEffect(() => {
         // getProducts()
-        dispatch(listProducts())
+        dispatch(listProducts());
 
-    }, [dispatch])
+    }, [dispatch]);
 
 
     return (
