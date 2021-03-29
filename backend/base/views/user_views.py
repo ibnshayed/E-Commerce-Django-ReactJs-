@@ -8,12 +8,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Product
-from .serializers import (ProductSerializer, UserSerializer,
+from ..serializers import (UserSerializer,
                           UserSerializerWithToken)
-
-# Create your views here.
-
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -53,7 +49,7 @@ def getUsers(request):
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
-    print('===========> ', data)
+    # print('===========> ', data)
 
     try:
         user = User.objects.create(
@@ -67,48 +63,3 @@ def registerUser(request):
     except:
         message = {'details': f"User {data['email']} already exist."}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-
-# ------------------- Products ----------------------------
-
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [ 
-        '/api/products/',
-        '/api/products/create/',
-
-        '/api/products/upload/',
-
-        '/api/products/<id>/reviews/',
-
-        '/api/products/top/',
-        '/api/products/<id>/',
-
-        '/api/products/delete/<id>/',
-        '/api/products/update/<id>/',
-    ]
-    return Response(routes)
-
-
-@api_view()
-def getProducts(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
-
-@api_view()
-def getProduct(request, pk):
-
-    product = Product.objects.get(_id=pk)
-    serializer = ProductSerializer(product, many=False)
-
-    # product = None
-    # for i in products:
-    #     if i['_id'] == pk:
-    #         product = i
-    #         break
-
-    # product = [product for product in products if product['_id'] == pk] # return a list
-    # product = filter(lambda x: x["_id"] == pk , products) # return a list
-
-
-    return Response(serializer.data)
