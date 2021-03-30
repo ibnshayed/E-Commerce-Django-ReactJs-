@@ -1,11 +1,12 @@
-import { Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Header from "./components/Header";
 import Footer from './components/Footer';
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
+import Header from "./components/Header";
 import CartScreen from './screens/CartScreen';
+import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
+import ProductScreen from './screens/ProductScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
 
@@ -18,6 +19,7 @@ const  App = () => {
           <Route path="/" component={HomeScreen} exact/>
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
+          <Route path="/profile" component={ProfileScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
         </Container>
