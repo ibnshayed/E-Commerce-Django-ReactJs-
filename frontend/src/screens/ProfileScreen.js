@@ -9,7 +9,7 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfileScreen = ( props ) => {
 
-  const { location, history } = props;
+  const {history } = props;
   
 
   const [name, setName] = useState('');
@@ -42,7 +42,7 @@ const ProfileScreen = ( props ) => {
       }
 
     }
-  }, [dispatch,history, userInfo, user, success]);
+  }, [dispatch, history, userInfo, user, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();

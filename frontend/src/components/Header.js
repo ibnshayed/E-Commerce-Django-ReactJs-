@@ -41,9 +41,8 @@ const Header = () => {
                             ): (
                                 <LinkContainer to="/login">
                                     <Nav.Link ><i className="fas fa-shopping-cart"></i> Login</Nav.Link>
-                                </LinkContainer>        
+                                </LinkContainer>
                             )}
-                            
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
