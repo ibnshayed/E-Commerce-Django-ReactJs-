@@ -31,7 +31,7 @@ const CheckoutSteps = (props) => {
 
       <Nav.Item>
         {step3 ? (
-          <LinkContainer to='/payment'>;
+          <LinkContainer to='/payment'>
             <Nav.Link>Payment</Nav.Link>
           </LinkContainer>
         ) : (
@@ -41,7 +41,7 @@ const CheckoutSteps = (props) => {
 
       <Nav.Item>
         {step4 ? (
-          <LinkContainer to='/placeorder'>;
+          <LinkContainer to='/placeorder'>
             <Nav.Link>Place Order</Nav.Link>
           </LinkContainer>
         ) : (
