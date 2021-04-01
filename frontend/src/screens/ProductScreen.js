@@ -32,7 +32,7 @@ const ProductScreen = (props) => {
         // getProduct()
         dispatch(getProduct(id));
         
-    }, []);
+    }, [dispatch, id]);
 
     const addToCartHandler = () => {
         history.push(`/cart/${id}?qty=${qty}`);

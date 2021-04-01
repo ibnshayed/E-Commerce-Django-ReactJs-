@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { Button, Form, FormGroup, Col } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { Button, Col, Form, FormGroup } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 import FormContainer from '../components/FormContainer';
@@ -18,8 +18,15 @@ const PaymentScreen = (props) => {
   const [paymentMethod, setPaymentMethod] = useState('PayPal')
 
   if (!shippingAddress.address) {
-    history.push('/login')
+    history.push('/login');
   }
+
+  // why not use like this?
+  // useEffect(() => {
+  //   if (!shippingAddress.address) {
+  //     history.push('/login');
+  //   }
+  // }, [shippingAddress, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();
