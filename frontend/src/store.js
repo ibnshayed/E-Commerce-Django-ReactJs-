@@ -1,8 +1,9 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { productDetailsReducers, productListReducers } from './reducers/productReducers';
+import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducers';
+import { orderCreateReducers } from './reducers/orderReducers';
+import { productDetailsReducers, productListReducers } from './reducers/productReducers';
 import { userDetailsReducers, userLoginReducers, userRegisterReducers, userUpdateProfileReducers } from './reducers/userReducers';
 
 
@@ -14,6 +15,7 @@ const reducer = combineReducers({
     userRegister: userRegisterReducers,
     userDetails: userDetailsReducers,
     userUpdateProfile: userUpdateProfileReducers,
+    orderCreate: orderCreateReducers, 
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?
