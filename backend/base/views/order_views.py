@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from datetime import datetime
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -77,8 +78,16 @@ def getOrderById(request, pk):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def updateOrderToPay(request, pk):
+  order = Order.objects.get(_id=pk)
 
+  order.isPaid = True
+  order.paidAt = datatime.now()
+  order.save()
 
+  return Response("Order was paid")
 
 
 
