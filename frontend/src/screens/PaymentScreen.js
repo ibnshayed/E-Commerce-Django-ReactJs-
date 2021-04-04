@@ -17,11 +17,12 @@ const PaymentScreen = (props) => {
 
   const [paymentMethod, setPaymentMethod] = useState('PayPal')
 
+  // To redirect page at the beginning every time without dependency
   if (!shippingAddress.address) {
     history.push('/login');
   }
 
-  // why not use like this?
+  // why not use like this? Because this depend on shippingAddress and history
   // useEffect(() => {
   //   if (!shippingAddress.address) {
   //     history.push('/login');

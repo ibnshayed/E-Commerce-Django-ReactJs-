@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
 import Message from "../components/Message";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 import Loader from './../components/Loader';
-
 
 const OrderScreen = (props) => {
 
@@ -14,24 +15,54 @@ const OrderScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const [sdkReady, setSdkReady] = useState(false)
+
   const orderDetails = useSelector(state => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
+  const orderPay = useSelector(state => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
 
   if (!loading && !error) {
     order.itemsPrice = Number(order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)).toFixed(2);
   }
+  // Paypal Client Id:  AdHx_WKrdw7BhlTYiawt4e8Nl9yCFMsFH526eVmLp_v5y9DlHqyR7cEkjdvecbFIOXptrrJ82Pily0O1
+
+  const addPaypalScript = () => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = "https://www.paypal.com/sdk/js?client-id=AdHx_WKrdw7BhlTYiawt4e8Nl9yCFMsFH526eVmLp_v5y9DlHqyR7cEkjdvecbFIOXptrrJ82Pily0O1";
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true)
+    };
+    document.body.appendChild(script);
+
+  }
 
   useEffect(() => {
-    if (!order || order._id != Number(orderId)) {
+    if (!order || successPay || order._id !== Number(orderId)) {
+      dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(orderId))
     }
-  }, [order, orderId]);
+    else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPaypalScript()
+      } else {
+        setSdkReady(true)
+      }
+    }
+  }, [dispatch, order, orderId, successPay]);
+
+  const successPaymentHandler = (paymentResult) => {
+    dispatch(payOrder(orderId, paymentResult))
+  }
 
 
   return (
     <div>
       {loading ? <Loader /> :
-        error ? <Message variant='danger'>{error}</Message> : (
+        error ? (<Message variant='danger'>{error} </Message>) : (
           <>
             <h1>Order No. : {order._id }</h1>
       
@@ -128,6 +159,20 @@ const OrderScreen = (props) => {
                         <Col>${order.totalPrice} </Col>
                       </Row>
                     </ListGroup.Item>
+
+                    {!order.isPaid && (
+                      <ListGroup.Item>
+                        {loadingPay && <Loader />}
+                        {!sdkReady ? (
+                          <Loader/>
+                        ): (
+                            <PayPalButton
+                              amount={order.totalPrice}
+                              onSuccess={successPaymentHandler}
+                            />
+                        )}
+                      </ListGroup.Item>
+                    )}
                   </ListGroup>
                 </Card>
               </Col>

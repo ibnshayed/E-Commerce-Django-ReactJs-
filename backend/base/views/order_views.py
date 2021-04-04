@@ -1,4 +1,6 @@
 
+from datetime import datetime
+
 from base.models import Order, OrderItem, Product, ShippingAddress
 from base.serializers import OrderSerializer, ProductSerializer
 from rest_framework import status
@@ -6,7 +8,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from datetime import datetime
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -78,13 +79,13 @@ def getOrderById(request, pk):
 
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def updateOrderToPay(request, pk):
   order = Order.objects.get(_id=pk)
 
   order.isPaid = True
-  order.paidAt = datatime.now()
+  order.paidAt = datetime.now()
   order.save()
 
   return Response("Order was paid")
