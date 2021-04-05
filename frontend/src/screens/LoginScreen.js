@@ -31,8 +31,6 @@ const LoginScreen = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
-    console.log("=============> submitted", email,password);
     dispatch(login(email, password));
 
   };

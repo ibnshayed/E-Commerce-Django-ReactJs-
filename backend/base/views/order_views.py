@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
@@ -58,6 +59,14 @@ def addOrderItems(request):
   return Response(serializer.data)
 # --------------- End of addOrderItems -----------------------
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMyOrders(request):
+  user = request.user
+  orders = user.order_set.all()
+  serializer = OrderSerializer(orders, many=True)
+  return Response(serializer.data)
 
 
 @api_view(['GET'])
