@@ -147,7 +147,7 @@ const ProfileScreen = ( props ) => {
                     <tr key={index}>
                       <td>{order._id }</td>
                       <td>{ order.createdAt.substring(0,10) }</td>
-                      <td>{order.totalPrice }</td>
+                      <td>${order.totalPrice }</td>
                       <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
                         <i className="fa fa-times" style={{color: 'red'}}></i>
                       ) }</td>

@@ -79,3 +79,6 @@ def registerUser(request):
     except:
         message = {'details': f"User {data['email']} already exist."}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+
