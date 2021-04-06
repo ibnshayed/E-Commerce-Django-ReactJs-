@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyOrderList } from '../actions/orderActions';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import { getMyOrderList } from '../../actions/orderActions';
+import { getUserDetails, updateUserProfile } from '../../actions/userActions';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const ProfileScreen = ( props ) => {

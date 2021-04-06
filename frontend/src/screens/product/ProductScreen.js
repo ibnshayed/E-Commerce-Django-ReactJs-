@@ -1,12 +1,12 @@
 
-import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
-import Rating from '../components/Rating';
 import { useEffect, useState } from 'react';
+import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from '../actions/productActions';
-import Loader from './../components/Loader';
-import Message from './../components/Message';
+import { Link } from 'react-router-dom';
+import { getProduct } from '../../actions/productActions';
+import Rating from '../../components/Rating';
+import Loader from './../../components/Loader';
+import Message from './../../components/Message';
 
 const ProductScreen = (props) => {
 

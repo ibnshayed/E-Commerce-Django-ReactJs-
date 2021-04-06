@@ -4,16 +4,19 @@ import Footer from './components/Footer';
 import Header from "./components/Header";
 import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
 import OrderScreen from './screens/OrderScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import ProductScreen from './screens/ProductScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import RegisterScreen from './screens/RegisterScreen';
+import ProductListScreen from './screens/product/ProductListScreen';
+import ProductEditScreen from './screens/product/ProductEditScreen';
+import ProductScreen from './screens/product/ProductScreen';
 import ShippingScreen from './screens/ShippingScreen';
-import UserEditScreen from './screens/UserEditScreen';
-import UserListScreen from './screens/UserListScreen';
+import LoginScreen from './screens/user/LoginScreen';
+import ProfileScreen from './screens/user/ProfileScreen';
+import RegisterScreen from './screens/user/RegisterScreen';
+import UserEditScreen from './screens/user/UserEditScreen';
+import UserListScreen from './screens/user/UserListScreen';
+
 
 const  App = () => {
   return (
@@ -34,6 +37,9 @@ const  App = () => {
 
           <Route path="/admin/userlist" component={UserListScreen} />
           <Route path="/admin/user/:id" component={UserEditScreen} />
+
+          <Route path="/admin/productlist" component={ProductListScreen} />
+          <Route path="/admin/product/:id" component={ProductEditScreen} />
         </Container>
       </main>
       <Footer />

@@ -3,24 +3,23 @@ import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { deleteUser, getAllUsers } from '../actions/userActions';
-import DeleteModal from '../components/DeleteModal';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
+import { listProducts } from '../../actions/productActions';
+import DeleteModal from '../../components/DeleteModal';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
 
-const UserListScreen = (props) => {
+const ProductListScreen = (props) => {
 
   const { history } = props
 
   const [show, setShow] = useState(false);
 
-  const [deleteUserId, setDeleteUserId] = useState(null)
-
- 
+  const [deleteProductId, setDeleteProductId] = useState(null)
 
   const dispatch = useDispatch()
-  const userList = useSelector(state => state.userList)
-  const { users, loading, error } = userList
+
+  const productList = useSelector(state => state.productList)
+  const { products , loading, error } = productList
 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
@@ -30,7 +29,7 @@ const UserListScreen = (props) => {
   
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getAllUsers())
+      dispatch(listProducts())
     } else {
       history.push('/login')
     }
@@ -45,13 +44,15 @@ const UserListScreen = (props) => {
   // }
   
   const handleClose = () => setShow(false);
+
   const handleShow = (id) => {
-    setDeleteUserId(id);
+    setDeleteProductId(id);
     setShow(true); 
   }
+
   const handleOk = () => {
     // console.log('Delete User: ', deleteUserId)
-    dispatch(deleteUser(deleteUserId))
+    // dispatch(deleteProduct(deleteProductId))
     setShow(false);
   }
   
@@ -64,40 +65,39 @@ const UserListScreen = (props) => {
         handleClose={handleClose}
         handleOk={handleOk}
       />
-      <h1>All Users</h1>
+      <h1>All Products</h1>
       {loading ? <Loader />
         : error ? <Message variant={'danger'} >{error}</Message>
           : (
             
-            <Table striped hover responsive className={'table-sm'}>
+            <Table striped bordered hover responsive className={'table-sm'}>
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>Email</th>
-                  <th>Is Admin</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                  <th>Brand</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                { users.map((user, index) => (
+                { products.map((product, index) => (
                   <tr key={index}>
-                    <td>{user._id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
+                    <td>{product._id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>{ product.category }</td>
+                    <td>{ product.brand }</td>
                     <td>
-                      <i className={'fa fa-check'} style={{ color: user.isAdmin ? "green" : "red" }}></i>
-                    </td>
-                    <td>
-                      <LinkContainer to={`/admin/user/${user._id}`}>
+                      <LinkContainer to={`/admin/product/${product._id}`}>
                         <Button variant={'light'} className={'btn btn-sm'}>
                           <i className='fa fa-edit'></i>
                         </Button>
                       </LinkContainer>
                       <Button variant={'danger'}
                         className={'btn btn-sm'}
-                        onClick={() => handleShow(user._id)}
-                        disabled={user.isAdmin}
+                        onClick={() => handleShow(product._id)}
                       >
                           <i className='fa fa-trash'></i>
                       </Button>
@@ -112,4 +112,4 @@ const UserListScreen = (props) => {
   )
 }
 
-export default UserListScreen
+export default ProductListScreen

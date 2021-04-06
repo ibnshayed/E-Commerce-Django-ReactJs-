@@ -1,13 +1,13 @@
 
 import { useEffect, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getUserDetails, register, updateUser } from '../actions/userActions';
-import FormContainer from '../components/FormContainer';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import { USER_UPDATE_RESET } from '../constants/userConstants';
+import { getUserDetails, updateUser } from '../../actions/userActions';
+import FormContainer from '../../components/FormContainer';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { USER_UPDATE_RESET } from '../../constants/userConstants';
 
 
 const UserEditScreen = (props) => {
