@@ -1,9 +1,10 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { getAllUsers } from '../actions/userActions';
+import { deleteUser, getAllUsers } from '../actions/userActions';
+import DeleteModal from '../components/DeleteModal';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -11,12 +12,21 @@ const UserListScreen = (props) => {
 
   const { history } = props
 
+  const [show, setShow] = useState(false);
+
+  const [deleteUserId, setDeleteUserId] = useState(null)
+
+ 
+
   const dispatch = useDispatch()
   const userList = useSelector(state => state.userList)
   const { users, loading, error } = userList
 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
+
+  const userDelete = useSelector(state => state.userDelete)
+  const { success: successDelete } = userDelete
   
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -25,16 +35,35 @@ const UserListScreen = (props) => {
       history.push('/login')
     }
     
-  }, [dispatch, userInfo, history])
+  }, [dispatch, userInfo, history, successDelete])
 
-  const deleteUserHandler = (id) => {
-    console.log('Deleted: ', id);
-  }
+  // const deleteUserHandler = (id) => {
+
+  //   if (window.confirm('Are you sure you want to delete this user?')) {
+  //     dispatch(deleteUser(id))
+  //   }
+  // }
   
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    setDeleteUserId(id);
+    setShow(true); 
+  }
+  const handleOk = () => {
+    // console.log('Delete User: ', deleteUserId)
+    dispatch(deleteUser(deleteUserId))
+    setShow(false);
+  }
   
 
   return (
     <div>
+      <DeleteModal show={show}
+        title={'Delete'}
+        text={'Are you sure you want to delete this user?'}
+        handleClose={handleClose}
+        handleOk={handleOk}
+      />
       <h1>All Users</h1>
       {loading ? <Loader />
         : error ? <Message variant={'danger'} >{error}</Message>
@@ -67,7 +96,8 @@ const UserListScreen = (props) => {
                       </LinkContainer>
                       <Button variant={'danger'}
                         className={'btn btn-sm'}
-                        onClick={() => deleteUserHandler(user._id)}
+                        onClick={() => handleShow(user._id)}
+                        disabled={user.isAdmin}
                       >
                           <i className='fa fa-trash'></i>
                       </Button>
@@ -76,7 +106,6 @@ const UserListScreen = (props) => {
                 ))}
               </tbody>
             </Table>
-            
           )
       }
     </div>

@@ -38,7 +38,7 @@ const ProfileScreen = ( props ) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-        if (!user || !user.name || success) {
+        if (!user || !user.name || success || userInfo._id !== user._id) {
           dispatch({ type: USER_UPDATE_PROFILE_RESET });
           dispatch(getUserDetails('profile'));
           dispatch(getMyOrderList())
@@ -122,7 +122,7 @@ const ProfileScreen = ( props ) => {
               </Form.Control>
             </Form.Group>
 
-            <Button type='submit' variant='primary'>Register</Button>
+            <Button type='submit' variant='primary'>Update</Button>
           </Form>
         </>
       </Col>
