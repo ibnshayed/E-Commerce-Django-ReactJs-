@@ -9,7 +9,7 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 
 
-const ProductEditScreen = (props) => {
+const ProductCreateScreen = (props) => {
 
   const { match, history } = props;
 
@@ -123,4 +123,4 @@ const ProductEditScreen = (props) => {
   )
 }
 
-export default ProductEditScreen
+export default ProductCreateScreen
