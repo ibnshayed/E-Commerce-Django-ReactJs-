@@ -65,7 +65,7 @@ const ProductListScreen = (props) => {
           <h1>All Products</h1>
         </Col>
         <Col className='text-right'>
-          <Link to={'admin/addproduct'}>
+          <Link to={'/admin/addproduct'}>
             <Button variant="primary"><i className="fa fa-plus"></i> Add Product</Button>
           </Link>
         </Col>
@@ -89,7 +89,11 @@ const ProductListScreen = (props) => {
                 { products.map((product, index) => (
                   <tr key={index}>
                     <td>{product._id}</td>
-                    <td>{product.name}</td>
+                    <td>
+                      <Link to={`/product/${product._id}`}>
+                        {product.name}
+                      </Link>
+                    </td>
                     <td>{product.price}</td>
                     <td>{ product.category }</td>
                     <td>{ product.brand }</td>

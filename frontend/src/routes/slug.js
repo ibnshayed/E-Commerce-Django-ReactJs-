@@ -13,6 +13,7 @@ export const ADMIN_USER_BY_ID_PATH = "/admin/user/:id"
 export const PRODUCT_BY_ID_PATH = "/product/:id"
 export const ADMIN_PRODUCT_LIST_PATH = "/admin/productlist"
 export const ADMIN_PRODUCT_BY_ID_PATH = "/admin/product/:id"
+export const ADMIN_PRODUCT_CREATE_PATH = "/admin/addproduct/"
 
 
 export const SHIPPING_PATH = "/shipping"

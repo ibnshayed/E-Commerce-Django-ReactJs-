@@ -12,8 +12,12 @@ import ProfileScreen from "../screens/user/ProfileScreen";
 import RegisterScreen from "../screens/user/RegisterScreen";
 import UserEditScreen from "../screens/user/UserEditScreen";
 import UserListScreen from "../screens/user/UserListScreen";
+import ProductCreateScreen from '../screens/product/ProductCreateScreen';
+
+
 import {
   ADMIN_PRODUCT_BY_ID_PATH,
+  ADMIN_PRODUCT_CREATE_PATH,
   ADMIN_PRODUCT_LIST_PATH,
   ADMIN_USERLIST_PATH,
   ADMIN_USER_BY_ID_PATH,
@@ -73,6 +77,11 @@ export const routes = [
   {
     path: ADMIN_PRODUCT_BY_ID_PATH,
     component: ProductEditScreen,
+    exact: false,
+  },
+  {
+    path: ADMIN_PRODUCT_CREATE_PATH,
+    component: ProductCreateScreen,
     exact: false,
   },
   {
