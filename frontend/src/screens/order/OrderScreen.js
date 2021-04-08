@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getOrderDetails, payOrder } from "../actions/orderActions";
-import Message from "../components/Message";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
-import Loader from './../components/Loader';
+import { deliverOrder, getOrderDetails, payOrder } from "../../actions/orderActions";
+import Message from "../../components/Message";
+import { ORDER_DELIVERED_RESET, ORDER_PAY_RESET } from "../../constants/orderConstants";
+import Loader from '../../components/Loader';
 
 const OrderScreen = (props) => {
 
-  const { match } = props;
+  const { match, history } = props;
   const orderId = match.params.id;
 
   const dispatch = useDispatch();
 
   const [sdkReady, setSdkReady] = useState(false)
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
   const orderDetails = useSelector(state => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector(state => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   if (!loading && !error) {
     order.itemsPrice = Number(order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)).toFixed(2);
@@ -41,8 +47,14 @@ const OrderScreen = (props) => {
   }
 
   useEffect(() => {
-    if (!order || successPay || order._id !== Number(orderId)) {
+
+    if (!userInfo) {
+      history.push(`/login?previous=${history.location.pathname}`)
+    }
+
+    if (!order || successPay || order._id !== Number(orderId) || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET })
+      dispatch({ type: ORDER_DELIVERED_RESET })
       dispatch(getOrderDetails(orderId))
     }
     else if (!order.isPaid) {
@@ -52,10 +64,14 @@ const OrderScreen = (props) => {
         setSdkReady(true)
       }
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [userInfo, history, dispatch, order, orderId, successPay, successDeliver]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult))
+  }
+
+  const orderDeliverHandler = () => {
+    dispatch(deliverOrder(order))
   }
 
 
@@ -159,20 +175,27 @@ const OrderScreen = (props) => {
                         <Col>${order.totalPrice} </Col>
                       </Row>
                     </ListGroup.Item>
-
-                    {!order.isPaid && (
+                      {!order.isPaid && (
+                        <ListGroup.Item>
+                          {loadingPay && <Loader />}
+                          {!sdkReady ? (
+                            <Loader/>
+                          ): (
+                              <PayPalButton
+                                amount={order.totalPrice}
+                                onSuccess={successPaymentHandler}
+                              />
+                          )}
+                        </ListGroup.Item>
+                      )}
+                    
+                    {loadingDeliver && <Loader />}
+                    {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                       <ListGroup.Item>
-                        {loadingPay && <Loader />}
-                        {!sdkReady ? (
-                          <Loader/>
-                        ): (
-                            <PayPalButton
-                              amount={order.totalPrice}
-                              onSuccess={successPaymentHandler}
-                            />
-                        )}
+                        <Button className="btn btn-block" onClick={orderDeliverHandler}>Mark as Delivered</Button>
                       </ListGroup.Item>
                     )}
+
                   </ListGroup>
                 </Card>
               </Col>

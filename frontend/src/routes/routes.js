@@ -1,20 +1,18 @@
-import CartScreen from "../screens/CartScreen";
 import HomeScreen from "../screens/HomeScreen";
-import OrderScreen from "../screens/OrderScreen";
-import PaymentScreen from "../screens/PaymentScreen";
-import PlaceOrderScreen from "../screens/PlaceOrderScreen";
+import CartScreen from "../screens/order/CartScreen";
+import PaymentScreen from "../screens/order/PaymentScreen";
+import OrderScreen from "../screens/order/OrderScreen";
+import PlaceOrderScreen from "../screens/order/PlaceOrderScreen";
+import ShippingScreen from "../screens/order/ShippingScreen";
+import ProductCreateScreen from '../screens/product/ProductCreateScreen';
 import ProductEditScreen from "../screens/product/ProductEditScreen";
 import ProductListScreen from "../screens/product/ProductListScreen";
 import ProductScreen from "../screens/product/ProductScreen";
-import ShippingScreen from "../screens/ShippingScreen";
 import LoginScreen from "../screens/user/LoginScreen";
 import ProfileScreen from "../screens/user/ProfileScreen";
 import RegisterScreen from "../screens/user/RegisterScreen";
 import UserEditScreen from "../screens/user/UserEditScreen";
 import UserListScreen from "../screens/user/UserListScreen";
-import ProductCreateScreen from '../screens/product/ProductCreateScreen';
-
-
 import {
   ADMIN_PRODUCT_BY_ID_PATH,
   ADMIN_PRODUCT_CREATE_PATH,
@@ -25,13 +23,17 @@ import {
   HOME_PATH,
   LOGIN_PATH,
   ORDER_BY_ID_PATH,
+  ORDER_LIST_PATH,
   PAYMENT_PATH,
   PLACEORDER_PATH,
   PRODUCT_BY_ID_PATH,
   PROFILE_PATH,
   REGISTER_PATH,
-  SHIPPING_PATH,
+  SHIPPING_PATH
 } from "./slug";
+import OrderListScreen from "../screens/order/OrderListScreen";
+
+
 
 export const routes = [
   {
@@ -107,6 +109,11 @@ export const routes = [
   {
     path: CART_PATH,
     component: CartScreen,
+    exact: false,
+  },
+  {
+    path: ORDER_LIST_PATH,
+    component: OrderListScreen,
     exact: false,
   },
 

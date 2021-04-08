@@ -13,8 +13,6 @@ const ProductCreateScreen = (props) => {
 
   const {  history } = props;
 
-  
-
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -40,7 +38,7 @@ const ProductCreateScreen = (props) => {
     if (success) {
         history.push("/admin/productlist")
     }
-
+    
     console.log(history)
 
   }, [userInfo, success, history]);

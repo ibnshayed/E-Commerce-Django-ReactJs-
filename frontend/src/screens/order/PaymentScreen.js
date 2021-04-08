@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { Button, Col, Form, FormGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { savePaymentMethod } from '../actions/cartActions';
-import CheckoutSteps from '../components/CheckoutSteps';
-import FormContainer from '../components/FormContainer';
+import { savePaymentMethod } from '../../actions/cartActions';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import FormContainer from '../../components/FormContainer';
 
 const PaymentScreen = (props) => {
 

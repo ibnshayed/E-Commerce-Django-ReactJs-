@@ -3,11 +3,11 @@ from datetime import datetime
 
 from base.models import Order, OrderItem, Product, ShippingAddress
 from base.serializers import OrderSerializer, ProductSerializer
+from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-
 
 
 @api_view(['POST'])
@@ -97,11 +97,28 @@ def updateOrderToPay(request, pk):
   order.paidAt = datetime.now()
   order.save()
 
-  return Response("Order was paid")
+  return Response("Order is paid")
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getAllOrders(request):
+  orders = get_list_or_404(Order)
+  serializer = OrderSerializer(orders, many=True)
+  return Response(serializer.data)
 
 
 
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def updateOrderToDeliver(request, pk):
+  order = get_object_or_404(Order, _id=pk)
 
+  order.isDelivered = True
+  order.deliveredAt = datetime.now()
+  order.save()
+
+  return Response("Order is deliverd")
 
 
 

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createOrder } from "../actions/orderActions";
-import CheckoutSteps from "../components/CheckoutSteps";
-import Message from "../components/Message";
-import { ORDER_CREATE_RESET } from "../constants/orderConstants";
+import { createOrder } from "../../actions/orderActions";
+import CheckoutSteps from "../../components/CheckoutSteps";
+import Message from "../../components/Message";
+import { ORDER_CREATE_RESET } from "../../constants/orderConstants";
 
 
 const PlaceOrderScreen = (props) => {

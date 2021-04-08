@@ -41,9 +41,13 @@ def updateProduct(request, pk):
 
     data = request.data
     product.name = data['name']
-    product.category = data['category']
-    product.price = data['price']
     product.brand = data['brand']
+    product.category = data['category']
+    product.description = data['description']
+    product.rating = data['rating']
+    product.numReviews = data['numReviews']
+    product.price = data['price']
+    product.countInStock = data['countInStock']
     
     product.save()
     return Response(serializer.data)
@@ -77,3 +81,21 @@ def createProduct(request):
     serializer = ProductSerializer(product, many=False)
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+
+    productId = data['product_id']
+    product = get_object_or_404(Product, _id=productId)
+
+    product.image = request.FILES.get('image')
+    product.save()
+
+    # print(product.image)
+    # print(product.image.name)
+    # print(product.image.path)
+    # print(product.image.url)
+
+    return Response(product.image.url)

@@ -1,10 +1,10 @@
 
 import { useState } from 'react';
 import { Button, Form, FormGroup } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
+import FormContainer from '../../components/FormContainer';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveShippingAddress } from '../actions/cartActions';
-import CheckoutSteps from '../components/CheckoutSteps';
+import { saveShippingAddress } from '../../actions/cartActions';
+import CheckoutSteps from '../../components/CheckoutSteps';
 
 const ShippingScreen = (props) => {
 
