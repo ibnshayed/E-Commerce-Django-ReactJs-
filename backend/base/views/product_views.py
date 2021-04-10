@@ -1,5 +1,6 @@
 
-from django.shortcuts import get_object_or_404
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -11,9 +12,56 @@ from ..serializers import ProductSerializer
 
 @api_view()
 def getProducts(request):
-    products = Product.objects.all()
+    keyword = request.query_params.get('keyword')
+    # print("Keyword: ",keyword)
+    # products = Product.objects.all()
+    if keyword == None:
+        keyword = ''
+    # products = get_list_or_404(Product, name__icontains=keyword) # Don't use it, it gives an error if products array is empty
+    products = Product.objects.filter(name__icontains=keyword)
+
+    page = int(request.query_params.get('page'))
+    size = int(request.query_params.get('size'))
+
+    #set default value
+    if page == None and size == None:
+        page = int(1)
+        size = int(4)
+    
+    paginator = Paginator(products, size)
+
+    products = paginator.page(page)
+
+    # try:
+    #     products = paginator.page(page)
+    # except PageNotAnInteger:
+    #     products = paginator.page(1)
+    # except EmptyPage:
+    #     products = paginator.page(paginator.num_pages)
+
+    # if page == None:
+    #     page = 1
+
+    # page = int(page)
+
+    serializer = ProductSerializer(products, many=True)
+    return Response({
+        "products": serializer.data,
+        "page": page,
+        "size": size,
+        "pages": paginator.num_pages
+        })
+
+
+
+@api_view(['GET'])
+def getTopProducts(request):
+    products = Product.objects.filter(rating__gte=4).order_by('-rating')[:5]
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
+
+
+
 
 @api_view()
 def getProduct(request, pk):
