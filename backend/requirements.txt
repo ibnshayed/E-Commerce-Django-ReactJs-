@@ -19,3 +19,6 @@ gunicorn
 whitenoise
 # Heroku - https://devcenter.heroku.com/articles/django-app-configuration
 django-heroku
+# Heroku PostGresql- https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-python
+psycopg2-binary
+dj-database-url

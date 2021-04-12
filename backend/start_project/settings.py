@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -108,6 +109,11 @@ DATABASES = {
 }
 
 
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -173,7 +179,9 @@ STATICFILES_DIRS = (
 
 # where uploaded image save by django admin
 MEDIA_ROOT = 'static/images'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 MEDIA_URL = '/images/'
+# MEDIAFILES_DIRS = (os.path.join(BASE_DIR, "media"),)
 
 CORS_ALLOW_ALL_ORIGINS=True
 
