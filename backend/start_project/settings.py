@@ -10,12 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-from datetime import timedelta
 import os
+from datetime import timedelta
+from pathlib import Path
+
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,9 +28,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '+a*3_9ntu-i&-=q6*c=fd0-@s3)y35c!f^g0$o27*v-mqu39mh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = False # give server error (500) if I don't change on start_project.urls.py static urls?
+
+ALLOWED_HOSTS = [
+    'ecommerce-django-reactjs.herokuapp.com',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
@@ -52,8 +61,10 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
-
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,9 +102,22 @@ WSGI_APPLICATION = 'start_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'DEMO_TEST',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -131,13 +155,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    BASE_DIR / 'frontend/build/static',
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+#     BASE_DIR / 'frontend/build/static',
+# ]
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'frontend/build/static'),
+)
 
 # where uploaded image save by django admin
 MEDIA_ROOT = 'static/images'
@@ -181,3 +213,20 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# if os.getcwd() == '/app':
+#     DEBUG = False
+
+
+
+
+
+
+
+
+
+
+django_heroku.settings(locals())
