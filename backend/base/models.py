@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 
 # Create your models here.
 class Product(models.Model):
@@ -15,6 +16,9 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering  = ["_id"]
 
     def __str__(self):
         return self.name

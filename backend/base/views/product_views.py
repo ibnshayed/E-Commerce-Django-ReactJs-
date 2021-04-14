@@ -20,13 +20,19 @@ def getProducts(request):
     # products = get_list_or_404(Product, name__icontains=keyword) # Don't use it, it gives an error if products array is empty
     products = Product.objects.filter(name__icontains=keyword)
 
-    page = int(request.query_params.get('page'))
-    size = int(request.query_params.get('size'))
+    page = request.query_params.get('page')
+    size = request.query_params.get('size')
 
     #set default value
-    if page == None and size == None:
+    if page == None:
         page = int(1)
+    else:
+        page = int(page)
+
+    if size == None:
         size = int(4)
+    else:
+        size= int(size)
     
     paginator = Paginator(products, size)
 

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Product, Order, OrderItem, ShippingAddress, Review
+from .models import Order, OrderItem, Product, Review, ShippingAddress
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,6 +37,8 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken.for_user(obj)
         # return str(token) # give refresh token
         return str(token.access_token)
+
+
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -80,6 +82,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+        # depth = 1 # show all attributes of pk attributes
     
     def get_orderItems(self, obj):
         items = obj.orderitem_set.all()
@@ -88,10 +91,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_shippingAddress(self, obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingaddress, many=False).data
+            address = ShippingAddressSerializer(obj.shippingaddress, many=False).data # If it is a serialized object
         except:
-            address = False
-        return address
+            address = False # else it return boolean data
+        return address # address has two types of data so don't write address.data
     
     def get_user(self, obj):
         user = obj.user
