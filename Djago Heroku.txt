@@ -1,6 +1,6 @@
 heroku login
 git init
-heroku git:remote -a ibnshayed-ecommerce
+heroku git:remote -a ecommerce-django-reactjs
 git add .
 git commit -m 'ready to deploy'
 heroku config:set DISABLE_COLLECTSTATIC=1
