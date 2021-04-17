@@ -226,4 +226,4 @@ SIMPLE_JWT = {
 #     DEBUG = False
 
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
