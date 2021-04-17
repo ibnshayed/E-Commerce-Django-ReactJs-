@@ -14,9 +14,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import dj_database_url
-import django_heroku
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,8 +41,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-
-    'whitenoise.runserver_nostatic',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -112,9 +107,6 @@ DATABASES = {
 }
 
 
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
-
 WHITENOISE_USE_FINDERS = True
 
 
@@ -177,8 +169,8 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
-MEDIA_URL = '/static/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images') # media files upload directory
+MEDIA_URL = '/static/images/' # media files retrive directory
 
 
 CORS_ALLOW_ALL_ORIGINS=True
@@ -220,10 +212,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
-
-# if os.getcwd() == '/app':
-#     DEBUG = False
-
-
-# django_heroku.settings(locals())
