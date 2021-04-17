@@ -31,8 +31,9 @@ const ProductListScreen = (props) => {
   const productDelete = useSelector(state => state.productDelete)
   const { success: successDelete } = productDelete
 
-  const page = query.get('page') != null ? query.get('page') : 1
+  let page = query.get('page') != null ? query.get('page') : 1
 
+  page = page > pages ? pages : page
   
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {

@@ -1,0 +1,11 @@
+heroku login
+git init
+heroku git:remote -a ibnshayed-ecommerce
+git add .
+git commit -m 'ready to deploy'
+heroku config:set DISABLE_COLLECTSTATIC=1
+git push heroku master
+heroku run python manage.py makemigrations
+heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+heroku run bash -a ibnshayed-ecommerce
