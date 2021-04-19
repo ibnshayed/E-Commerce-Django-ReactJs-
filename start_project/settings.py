@@ -26,10 +26,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+a*3_9ntu-i&-=q6*c=fd0-@s3)y35c!f^g0$o27*v-mqu39mh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 # With debug turned off Django won't handle static files for you any more - your production web server (Apache or something) should take care of that.
-# DEBUG = False # give server error (500) if I don't change on start_project.urls.py static urls?
+DEBUG = False # give server error (500) if I don't change on start_project.urls.py static urls?
 
 ALLOWED_HOSTS = [
     'ecommerce-django-reactjs.herokuapp.com',
