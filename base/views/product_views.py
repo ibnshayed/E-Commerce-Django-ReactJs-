@@ -115,7 +115,7 @@ def updateProduct(request, pk):
 def deleteProduct(request, pk):
     product = get_object_or_404(Product, _id=pk)
     product.delete()
-    return Response(F'Product {product.name} has been deleted')
+    return Response(f'Product {product.name} has been deleted')
 
 
 @api_view(['POST'])
@@ -148,7 +148,8 @@ def uploadImage(request):
     productId = data['product_id']
     product = get_object_or_404(Product, _id=productId)
 
-    product.image = request.FILES.get('image')
+    # product.image = request.FILES.get('image')
+    product.image = data['image']
     product.save()
 
     # print(product.image)

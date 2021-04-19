@@ -27,6 +27,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+
+
+
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
@@ -45,6 +48,9 @@ def updateUserProfile(request):
 
     return Response(serializer.data)
 
+
+
+
 @api_view()
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -52,12 +58,17 @@ def getUserProfile(request):
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
+
+
+
 @api_view()
 @permission_classes([IsAdminUser])
 def getUserById(request, pk):
     user = User.objects.get(id=pk)
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
+
+
 
 
 

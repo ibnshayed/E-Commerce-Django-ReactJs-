@@ -45,7 +45,10 @@ const HomeScreen = (props) => {
         <div>
             {!keyword && <ProductCarousel />}
             
-            <h1 className="mt-3">Latest Products</h1>
+            {keyword ? 
+                <h1>Search Result: {keyword}</h1>
+                : <h1 className="mt-3">Latest Products</h1>
+            }
             
             {loading ? <Loader/>
                 : error ? <Message variant={'danger'}>{error}</Message>

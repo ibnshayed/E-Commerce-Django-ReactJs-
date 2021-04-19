@@ -29,7 +29,7 @@ SECRET_KEY = '+a*3_9ntu-i&-=q6*c=fd0-@s3)y35c!f^g0$o27*v-mqu39mh'
 # DEBUG = True
 
 # With debug turned off Django won't handle static files for you any more - your production web server (Apache or something) should take care of that.
-# DEBUG = False # give server error (500) if I don't change on start_project.urls.py static urls?
+DEBUG = False # give server error (500) if I don't change on start_project.urls.py static urls?
 
 ALLOWED_HOSTS = [
     'ecommerce-django-reactjs.herokuapp.com',
@@ -169,8 +169,8 @@ STATICFILES_DIRS = [
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images') # media files upload directory
-MEDIA_URL = '/static/images/' # media files retrive directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # media files upload directory
+MEDIA_URL = '/media/' # media files retrive directory
 
 CORS_ALLOW_ALL_ORIGINS=True
 
