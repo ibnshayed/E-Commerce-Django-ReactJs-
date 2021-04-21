@@ -1,9 +1,9 @@
 
-import { Card, CardMedia, Divider, Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardMedia, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemText, Select, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink} from 'react-router-dom';
 import { createProductReview, getProduct } from '../../actions/productActions';
 import CircularLoader from '../../components/materialui/CircularLoader';
 import StarRating from '../../components/materialui/StarRating';
@@ -71,7 +71,17 @@ const ProductScreen = (props) => {
     return (
         <div>
 
-            <Link to="/" className="btn btn-light my-3">Go Back</Link>
+            <Box mb={2}>
+                <Button
+                    variant="outlined"
+                    color='primary'
+                    component={RouterLink}
+                    to='/'
+
+                >
+                    Go Back
+                </Button>
+            </Box>
 
             {
                 loading ? <CircularLoader />
@@ -112,55 +122,74 @@ const ProductScreen = (props) => {
                                         </List>
                                     </Grid>
 
-                                    <Col md={3}>
+                                    <Grid item md={3}>
                                         <Card>
-                                            <ListGroup variant="flush">
-                                                <ListGroup.Item>
-                                                    <Row>
-                                                        <Col>Price:</Col>
-                                                        <Col> <strong>${ product.price }</strong> </Col>
-                                                    </Row>
-                                                </ListGroup.Item>
-                                                <ListGroup.Item>
-                                                    <Row>
-                                                        <Col>Price:</Col>
-                                                        <Col> { product.countInStock > 0 ? "In Stock" : "Out Of Stock" }</Col>
-                                                    </Row>
-                                                </ListGroup.Item>
+                                            <List component="nav" aria-label="main mailbox folders">
+                                                <Box py={1}>
+                                                    <ListItem>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item xs={6}>Price:</Grid>
+                                                                <Grid item xs={6}> <strong>${ product.price }</strong> </Grid>
+                                                            </Grid>
+                                                    </ListItem>
+                                                </Box>
+                                                <Divider />
+                                                <Box py={1}>
                                                 
-                                                {product.countInStock > 0 && (
-                                                    <ListGroup.Item>
-                                                        <Row>
-                                                            <Col className='my-1'>Qty</Col>
-                                                            <Col sx={'auto'} className='my-1'>
-                                                                <Form.Control as="select"
-                                                                    value={qty}
-                                                                    onChange={e => setQty(e.target.value)}
+                                                    <ListItem>
+                                                        <Grid container>
+                                                            <Grid item xs={6}>Price:</Grid>
+                                                            <Grid item xs={6}> { product.countInStock > 0 ? "In Stock" : "Out Of Stock" }</Grid>
+                                                        </Grid>
+                                                    </ListItem>
+                                                </Box>
+                                                <Divider />
+                                                <Box py={1}>
+                                                
+                                                    {product.countInStock > 0 && (
+                                                        <ListItem>
+                                                            <Grid container>
+                                                                <Grid item xs={6}>Qty</Grid>
+                                                                <Grid item xs={6}>
+                                                                    
+                                                                    <FormControl
+                                                                        variant="outlined"
+                                                                        size='small'
+                                                                        style={{minWidth: '100%'}}
                                                                     >
-                                                                    {
-                                                                        [...Array(product.countInStock).keys()].map(x => (
-                                                                            <option key={x + 1} value={x + 1}>{ x + 1 }</option>
-                                                                        ))
-                                                                    }
-
-                                                                </Form.Control>
-                                                            </Col>
-                                                        </Row>
-                                                    </ListGroup.Item>
-                                                )}
-
-                                                <ListGroup.Item>
-                                                    <Button className="btn-block"
-                                                        type="button"
+                                                                            <InputLabel htmlFor="outlined-age-native-simple">Age</InputLabel>
+                                                                            <Select
+                                                                                native
+                                                                                value={qty}
+                                                                                onChange={e => setQty(e.target.value)}
+                                                                                label="Qty"
+                                                                            >
+                                                                                {
+                                                                                    [...Array(product.countInStock).keys()].map(x => (
+                                                                                        <option key={x + 1} value={x + 1}>{ x + 1 }</option>
+                                                                                    ))
+                                                                                }
+                                                                            </Select>
+                                                                        </FormControl>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </ListItem>
+                                                    )}
+                                                </Box>
+                                                <ListItem>
+                                                    <Button
+                                                        variant='contained'
+                                                        color='primary'
                                                         disabled={product.countInStock <= 0}
                                                         onClick={addToCartHandler}
+                                                        fullWidth
                                                     >
                                                         Add to Cart
                                                     </Button>
-                                                </ListGroup.Item>
-                                            </ListGroup>
+                                                </ListItem>
+                                            </List>
                                         </Card>
-                                    </Col>
+                                    </Grid>
                                 </Grid>
                                 <Row className={"mt-5"}>
                                     <Col md={6}>
@@ -211,7 +240,8 @@ const ProductScreen = (props) => {
                                                         <Button
                                                             disabled={loadingReview}
                                                             type='submit'
-                                                            variant='primary'
+                                                            variant='contained'
+                                                            color='primary'
                                                         >
                                                             Sumbit
                                                         </Button>
@@ -219,7 +249,7 @@ const ProductScreen = (props) => {
 
                                                 ) : (
                                                         <Message variant = 'warning'>
-                                                            Please <Link to={`/login?previous=${history.location.pathname}`}>login</Link> to write a review.
+                                                            Please <RouterLink to={`/login?previous=${history.location.pathname}`}>login</RouterLink> to write a review.
                                                         </Message>
                                                 )}
                                             </ListGroup.Item>
