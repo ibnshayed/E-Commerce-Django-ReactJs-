@@ -1,3 +1,4 @@
+python -m pip install --upgrade pip
 heroku login
 git init
 heroku git:remote -a ecommerce-django-reactjs

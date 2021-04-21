@@ -3,9 +3,8 @@ import { Carousel, Image } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { topProducts } from "../actions/productActions"
-import Loader from "./Loader"
+import CircularLoader from "./materialui/CircularLoader"
 import Message from "./Message"
-
 
 const ProductCarousel = () => {
 
@@ -20,7 +19,7 @@ const ProductCarousel = () => {
 
   return (
     <>
-      {loading ? <Loader />
+      {loading ? <CircularLoader/>
         : error ? <Message variant={'danger'} >{error}</Message>
           : (
             <Carousel hover='pause' className='bg-dark'>

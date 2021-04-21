@@ -1,13 +1,18 @@
 
+import { Card, CardMedia, Divider, Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createProductReview, getProduct } from '../../actions/productActions';
+import CircularLoader from '../../components/materialui/CircularLoader';
+import StarRating from '../../components/materialui/StarRating';
 import Rating from '../../components/Rating';
 import { PRODUCT_REVIEW_CREATE_RESET } from '../../constants/productConstants';
-import Loader from './../../components/Loader';
 import Message from './../../components/Message';
+
+
+
 
 const ProductScreen = (props) => {
 
@@ -69,35 +74,43 @@ const ProductScreen = (props) => {
             <Link to="/" className="btn btn-light my-3">Go Back</Link>
 
             {
-                loading ? <Loader />
+                loading ? <CircularLoader />
                     : error ? <Message>{error}</Message>
                         : (
                             <div>
-                                <Row>
-                                    <Col md={6}>
-                                        <Image src={product.image} alt={product.name} fluid />
-                                    </Col>
-                                    <Col md={3}>
-                                        <ListGroup variant="flush">
-                                            <ListGroup.Item>
-                                                <h3>{product.name}</h3>
-                                            </ListGroup.Item>
-                                        
-                                            <ListGroup.Item>
-                                                <Rating value={product.rating}
-                                                    text={`${product.numReviews} reviews`}
-                                                />
-                                            </ListGroup.Item>
+                                <Grid container spacing={2}>
+                                    <Grid item md={5}>
+                                        <CardMedia
+                                                component='img'
+                                                image={product.image}
+                                                height='100%'
+                                            />
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        <List component="nav" aria-label="main mailbox folders">
+                                            <ListItem>
+                                                <Typography
+                                                    variant='h4'
+                                                    component='h2'
+                                                >
+                                                    {product.name}
+                                                </Typography>
+                                            </ListItem>
+                                            <Divider />
 
-                                            <ListGroup.Item>
-                                                Price: {product.price}
-                                            </ListGroup.Item>
-
-                                            <ListGroup.Item>
-                                                Description: {product.description}
-                                            </ListGroup.Item>
-                                        </ListGroup>
-                                    </Col>
+                                            <ListItem>
+                                                <StarRating rating={product.rating} reviews={ product.numReviews }/>
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                <ListItemText primary={`Price: ${product.price}`}/>
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem>
+                                                <ListItemText primary={`Description: ${product.description}`}/>
+                                            </ListItem>
+                                        </List>
+                                    </Grid>
 
                                     <Col md={3}>
                                         <Card>
@@ -148,7 +161,7 @@ const ProductScreen = (props) => {
                                             </ListGroup>
                                         </Card>
                                     </Col>
-                                </Row>
+                                </Grid>
                                 <Row className={"mt-5"}>
                                     <Col md={6}>
                                         <h4>Reviews</h4>

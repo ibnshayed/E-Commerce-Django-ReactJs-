@@ -1,17 +1,27 @@
-import { Container } from 'react-bootstrap';
+// import { Container } from 'react-bootstrap';
+import { Container, makeStyles } from "@material-ui/core";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Footer from './components/Footer';
-import Header from "./components/Header";
+import Footer from './components/materialui/Footer';
+import Header from "./components/materialui/Header";
 import { routes } from './routes/routes';
 import NotFoundScreen from './screens/NotFoundScreen';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight:  'calc(100vh - 128px)',
+  },
+}))
 
-const  App = () => {
+
+const App = () => {
+  
+  const classes = useStyles();
+
   return (
     <Router>
       <Header />
-      <main className="py-3">
-        <Container>
+      <main className={classes.root}>
+        <Container maxWidth="lg">
           <Switch>
             {routes.map((route, index) => (
               <Route key={index}

@@ -1,14 +1,14 @@
 
+import { Grid, Typography } from '@material-ui/core';
 import { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
-import Loader from '../components/Loader';
+import CircularLoader from '../components/materialui/CircularLoader';
+import Paginate from '../components/materialui/Paginate';
 import Message from '../components/Message';
-import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
 import { useQuery } from '../components/utils';
-import Product from './../components/Product';
+import Product from './../components/materialui/Product';
 
 
 const HomeScreen = (props) => {
@@ -28,7 +28,7 @@ const HomeScreen = (props) => {
 
     // const keyword = history.location.search
   const keyword = query.get('keyword') != null ? query.get('keyword') : ''
-  const page = query.get('page') != null ? query.get('page') : 1
+  const page = query.get('page') != null ? Number(query.get('page')) : 1
 //   const keyword = query.get('keyword') != null ? query.get('keyword') : ''
 
     
@@ -47,21 +47,32 @@ const HomeScreen = (props) => {
             
             {keyword ? 
                 <h1>Search Result: {keyword}</h1>
-                : <h1 className="mt-3">Latest Products</h1>
+                : <Typography variant='h4' component='h1'>Latest Products</Typography>
             }
             
-            {loading ? <Loader/>
+            {loading ? <CircularLoader/>
                 : error ? <Message variant={'danger'}>{error}</Message>
                     :
                     <div>
-                        <Row>
+                        <Grid
+                            container
+                            spacing={2}
+                        >
                             {products.map(product => (
-                                    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                                        <Product product={product}/>
-                                    </Col>
+                                <Grid
+                                    container
+                                    item
+                                    key={product._id}
+                                    xs={12}
+                                    sm={6}
+                                    md={3}
+                                    // spacing={3}
+                                >
+                                        <Product product={product} />
+                                </Grid>
                             ))}
-                        </Row>
-                        <Paginate pages={pages} page={page} keyword={keyword}/>
+                        </Grid>
+                        { pages > 1 && <Paginate pages={pages} page={page} keyword={keyword} />}
                     </div>
             }
             
