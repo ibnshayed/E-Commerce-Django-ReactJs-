@@ -21,6 +21,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         for k, v in serializer.items():
             data[k] = v
 
+        data.pop('refresh')
+        data.pop('access')
         return data
 
 

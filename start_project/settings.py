@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 3rd party
     'rest_framework',
     'corsheaders',
+    'drf_yasg',
 
     # local
     'base.apps.BaseConfig',

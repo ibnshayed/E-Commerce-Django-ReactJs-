@@ -25,3 +25,5 @@ django-heroku
 psycopg2-binary
 dj-database-url
 python-decouple
+# For Swagger - https://drf-yasg.readthedocs.io/en/stable/readme.html#installation
+drf-yasg
