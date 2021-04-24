@@ -8,6 +8,7 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 import { LinkContainer } from 'react-router-bootstrap';
+import axios from 'axios';
 
 const ProfileScreen = ( props ) => {
 
@@ -139,7 +140,7 @@ const ProfileScreen = ( props ) => {
                     <th>Total Price</th>
                     <th>Paid</th>
                     <th>Delivered</th>
-                    <th></th>
+                    <th>Invoice</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -156,7 +157,16 @@ const ProfileScreen = ( props ) => {
                           <Button className='btn btn-sm'>Details</Button>
                         </LinkContainer>
                       </td>
-                      <td></td>
+											<td>
+											{/* <LinkContainer to={order.invoiceUrl}> */}
+												<Button
+													className='btn btn-sm btn-secondary'
+														onClick={ () => axios.get(order.invoiceUrl)}
+													>
+													PDF
+												</Button>
+                        {/* </LinkContainer> */}
+											</td>
                     </tr>
 
                   ))}

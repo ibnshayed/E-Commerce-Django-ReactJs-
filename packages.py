@@ -27,3 +27,7 @@ dj-database-url
 python-decouple
 # For Swagger - https://drf-yasg.readthedocs.io/en/stable/readme.html#installation
 drf-yasg
+# Html to pdf - https://www.youtube.com/watch?v=dSCTQfbP4N8
+xhtml2pdf
+# math operations - https://pypi.org/project/django-mathfilters/
+django-mathfilters

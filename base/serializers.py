@@ -3,101 +3,110 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import Order, OrderItem, Product, Review, ShippingAddress
+from django.urls import reverse
 
 
 class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField(read_only=True)
-    _id = serializers.SerializerMethodField(read_only=True)
-    isAdmin = serializers.SerializerMethodField(read_only=True)
-    class Meta:
-        model = User
-        fields = ['id', '_id', 'username', 'email','name', 'isAdmin']
+		name = serializers.SerializerMethodField(read_only=True)
+		_id = serializers.SerializerMethodField(read_only=True)
+		isAdmin = serializers.SerializerMethodField(read_only=True)
+		class Meta:
+				model = User
+				fields = ['id', '_id', 'username', 'email','name', 'isAdmin']
 
-    def get__id(self,obj):
-        return obj.id
+		def get__id(self,obj):
+				return obj.id
 
-    def get_isAdmin(self,obj):
-        return obj.is_staff
+		def get_isAdmin(self,obj):
+				return obj.is_staff
 
-    def get_name(self,obj):
-        name = obj.first_name
-        
-        if name == '':
-            name = obj.email
-        
-        return name
+		def get_name(self,obj):
+				name = obj.first_name
+				
+				if name == '':
+						name = obj.email
+				
+				return name
 
 class UserSerializerWithToken(UserSerializer):
-    token = serializers.SerializerMethodField(read_only=True)
-    class Meta:
-        model = User
-        fields = ['id', '_id', 'username', 'email','name', 'isAdmin','token']
-    
-    def get_token(self, obj):
-        token = RefreshToken.for_user(obj)
-        # return str(token) # give refresh token
-        return str(token.access_token)
+		token = serializers.SerializerMethodField(read_only=True)
+		class Meta:
+				model = User
+				fields = ['id', '_id', 'username', 'email','name', 'isAdmin','token']
+		
+		def get_token(self, obj):
+				token = RefreshToken.for_user(obj)
+				# return str(token) # give refresh token
+				return str(token.access_token)
 
 
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'
+		class Meta:
+				model = Review
+				fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    reviews = serializers.SerializerMethodField(read_only=True)
-    class Meta:
-        model = Product
-        fields = '__all__'
-        # fields = ('rating','price',)
-        extra_kwargs = {
-            'rating': {'coerce_to_string': False},
-            'price': {'coerce_to_string': False},
-        }
+		reviews = serializers.SerializerMethodField(read_only=True)
+		class Meta:
+				model = Product
+				fields = '__all__'
+				# fields = ('rating','price',)
+				extra_kwargs = {
+						'rating': {'coerce_to_string': False},
+						'price': {'coerce_to_string': False},
+				}
 
-    def get_reviews(self, obj):
-        reviews = obj.review_set.all()
-        serializer = ReviewSerializer(reviews, many=True)
-        return serializer.data
+		def get_reviews(self, obj):
+				reviews = obj.review_set.all()
+				serializer = ReviewSerializer(reviews, many=True)
+				return serializer.data
 
 
 class ShippingAddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ShippingAddress
-        fields = '__all__'
+		class Meta:
+				model = ShippingAddress
+				fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderItem
-        fields = '__all__'
+	class Meta:
+		model = OrderItem
+		fields = '__all__'
+		# fields = [field.name for field in Order._meta.fields]
+	
+	
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    orderItems = serializers.SerializerMethodField(read_only=True)
-    shippingAddress = serializers.SerializerMethodField(read_only=True)
-    user = serializers.SerializerMethodField(read_only=True)
-    class Meta:
-        model = Order
-        fields = '__all__'
-        # depth = 1 # show all attributes of pk attributes
-    
-    def get_orderItems(self, obj):
-        items = obj.orderitem_set.all()
-        serializer = OrderItemSerializer(items, many=True)
-        return serializer.data
+		orderItems = serializers.SerializerMethodField(read_only=True)
+		shippingAddress = serializers.SerializerMethodField(read_only=True)
+		user = serializers.SerializerMethodField(read_only=True)
+		invoiceUrl = serializers.SerializerMethodField(read_only=True)
 
-    def get_shippingAddress(self, obj):
-        try:
-            address = ShippingAddressSerializer(obj.shippingaddress, many=False).data # If it is a serialized object
-        except:
-            address = False # else it return boolean data
-        return address # address has two types of data so don't write address.data
-    
-    def get_user(self, obj):
-        user = obj.user
-        serializer = UserSerializer(user, many=False)
-        return serializer.data
+		class Meta:
+				model = Order
+				fields = '__all__'
+				# depth = 1 # show all attributes of pk attributes
+		
+		def get_orderItems(self, obj):
+				items = obj.orderitem_set.all()
+				serializer = OrderItemSerializer(items, many=True)
+				return serializer.data
+
+		def get_shippingAddress(self, obj):
+				try:
+						address = ShippingAddressSerializer(obj.shippingaddress, many=False).data # If it is a serialized object
+				except:
+						address = False # else it return boolean data
+				return address # address has two types of data so don't write address.data
+		
+		def get_user(self, obj):
+				user = obj.user
+				serializer = UserSerializer(user, many=False)
+				return serializer.data
+				
+		def get_invoiceUrl(self, obj):
+			return reverse('orders:admin_order_pdf', args=[obj._id])
 

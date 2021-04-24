@@ -120,5 +120,3 @@ def updateOrderToDeliver(request, pk):
 
   return Response("Order is deliverd")
 
-
-

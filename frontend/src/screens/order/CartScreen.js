@@ -1,5 +1,14 @@
-import { Button, CardMedia, FormControl, Grid, IconButton, InputLabel, Paper, Select } from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
+import {
+  Button,
+  CardMedia,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  Paper,
+  Select,
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
 import { ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -76,31 +85,29 @@ const CartScreen = (props) => {
                       ))}
                     </Form.Control> */}
                     <FormControl
-                              variant="outlined"
-                              size="small"
-                              style={{ minWidth: "100%" }}
-                            >
-                              <InputLabel htmlFor="outlined-age-native-simple">
-                                Qty
-                              </InputLabel>
-                              <Select
-                                native
-                                value={item.qty}
-                                onChange={(e) =>
-                                  dispatch(
-                                    addToCart(item.product, Number(e.target.value))
-                                  )
-                                }
-                                label="Qty"
-                              >
-                                {[...Array(item.countInStock).keys()].map(
-                                  (x) => (
-                                    <option key={x + 1} value={x + 1}>
-                                      {x + 1}
-                                    </option>
-                                  )
-                                )}
-                              </Select>
+                      variant="outlined"
+                      size="small"
+                      style={{ minWidth: "100%" }}
+                    >
+                      <InputLabel htmlFor="outlined-age-native-simple">
+                        Qty
+                      </InputLabel>
+                      <Select
+                        native
+                        value={item.qty}
+                        onChange={(e) =>
+                          dispatch(
+                            addToCart(item.product, Number(e.target.value))
+                          )
+                        }
+                        label="Qty"
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} md={1} className="m-auto">
@@ -111,10 +118,11 @@ const CartScreen = (props) => {
                     >
                       <i className="fas fa-trash"></i>
                     </Button> */}
-										<IconButton aria-label="delete"
-											onClick={() => removeFromCartHandler(item.product)}
-											color='secondary'
-										>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => removeFromCartHandler(item.product)}
+                      color="secondary"
+                    >
                       <DeleteIcon fontSize="large" />
                     </IconButton>
                   </Grid>

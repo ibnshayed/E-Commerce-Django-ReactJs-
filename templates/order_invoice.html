@@ -1,0 +1,60 @@
+{% load static %}
+{% load mathfilters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Order Invoice PDF</title>
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/order_invoice.css' %}"> -->
+
+
+	<style>
+		h1{
+			text-align: center;
+		}
+		table, td, th {
+			border: 3px solid black;
+			padding: 10px;
+		}
+		
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+	</style>
+
+</head>
+<body>
+	
+	<h1>Convert Html to Pdf</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>SL. NO.</th>
+				<th>Item</th>
+				<th>Unit Price</th>
+				<th>QTY</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% with num=0 %}
+				{% for orderItem in orderItems %}
+					<tr>
+						<!-- <td>{{orderItems.index(orderItem)}}</td> -->
+						<td>{{orderItem.name}}</td>
+						<td>{{orderItem.price}}</td>
+						<td>{{orderItem.qty}}</td>
+						<td>{{orderItem.price|mul:orderItem.qty }}</td>
+					</tr>
+				{% endfor %}
+			{% endwith %}
+		</tbody>
+	</table>
+
+</body>
+</html>

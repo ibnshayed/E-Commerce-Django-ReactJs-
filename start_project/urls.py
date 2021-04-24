@@ -31,7 +31,7 @@ urlpatterns = [
 
     path('api/users/', include('base.urls.user_urls')),
 
-    path('api/orders/', include('base.urls.order_urls')),
+    path('api/orders/', include('base.urls.order_urls', namespace='orders')),
 
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
